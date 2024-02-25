@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="output.css">
+</head>
+
+<body>
+    <main class="bg-gray-900">
+        <div class="flex flex-col justify-center items-center py-8 px-6 mx-auto md:h-screen">
+            <h1 class="font-bold text-4xl p-4 text-blue-600 shadow-white">IaaC <span class="font-normal">Platform</span></h1>
+                <div
+                    class="justify-center items-center w-full bg-white rounded-lg shadow lg:flex md:mt-0 lg:max-w-screen-sm xl:p-0 dark:bg-gray-800">
+                    <div class="p-6 w-full sm:p-8 lg:p-10">
+                        <h1 class="mb-3 text-2xl font-bold text-gray-900 lg:text-3xl dark:text-white">Log in</h1>
+                        <p class="mb-3 text-gray-500 dark:text-gray-400">Powerful yet cloud platform that built with Kubernetes-Native, Terraform and latest pipeline technologies.</p>
+                        <form class="mt-8" data-bitwarden-watching="1">
+                            <div class="mb-6"><label for="email"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                    email</label><input required="" type="email" name="email" id="email"
+                                    placeholder="name@company.com"
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    value=""></div>
+                            <div class="mb-6"><label for="password"
+                                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                    password</label><input required="" type="password" name="password" id="password"
+                                    placeholder=""
+                                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                    value=""></div>
+                            <div class="flex items-start mb-6">
+                                <div class="flex items-center h-5"><input id="remember" aria-describedby="remember"
+                                        name="remember" type="checkbox"
+                                        class="w-4 h-4 bg-gray-50 rounded border-gray-300 focus:ring-3 focus:ring-blue-300 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:bg-gray-700 dark:border-gray-600">
+                                </div>
+                                <div class="ml-3 text-sm"><label for="remember"
+                                        class="font-medium text-gray-900 dark:text-white">Remember me</label></div><a
+                                    class="ml-auto text-sm text-blue-700 dark:text-blue-500 hover:underline"
+                                    href="#">Forgot Password?</a>
+                            </div>
+                            <div class="mb-6">
+                                <div>
+                                    <div class="grecaptcha-badge" data-style="bottomright"
+                                        style="width: 256px; height: 60px; display: block; transition: right 0.3s ease 0s; position: fixed; bottom: 14px; right: -186px; box-shadow: gray 0px 0px 5px; border-radius: 2px; overflow: hidden;">
+                                        <div class="grecaptcha-logo"><iframe title="reCAPTCHA" width="256" height="60"
+                                                role="presentation" name="a-nhlqpk24srdv" frameborder="0" scrolling="no"
+                                                sandbox="allow-forms allow-popups allow-same-origin allow-scripts allow-top-navigation allow-modals allow-popups-to-escape-sandbox allow-storage-access-by-user-activation"
+                                                src="https://www.google.com/recaptcha/api2/anchor?ar=1&amp;k=6LcKn58eAAAAAFD-lFXQHCSkdJ9V76lq3KLyNygU&amp;co=aHR0cHM6Ly9mbG93Yml0ZS5jb206NDQz&amp;hl=en&amp;type=image&amp;v=1kRDYC3bfA-o6-tsWzIBvp7k&amp;theme=light&amp;size=invisible&amp;badge=bottomright&amp;cb=842n53d5v1g0"></iframe>
+                                        </div>
+                                        <div class="grecaptcha-error"></div><textarea id="g-recaptcha-response"
+                                            name="g-recaptcha-response" class="g-recaptcha-response"
+                                            style="width: 250px; height: 40px; border: 1px solid rgb(193, 193, 193); margin: 10px 25px; padding: 0px; resize: none; display: none;"></textarea>
+                                    </div><iframe style="display: none;"></iframe>
+                                </div>
+                            </div><button onclick="javascript:window.location.replace('/dash')"
+                                class="text-white font-medium rounded-lg text-base px-5 py-3 w-full sm:w-auto text-center mb-6 bg-blue-700"
+                                type="submit"><span class="flex justify-center items-center">Log in</span></button>
+                            <div class="text-sm font-medium text-gray-500 dark:text-gray-400">Not registered?<a
+                                    class="ml-1 text-blue-700 hover:underline dark:text-blue-500"
+                                    href="#">Create an account.</a></div>
+                        </form>
+                    </div>
+                </div>
+        </div>
+    </main>
+</body>
+
+</html>

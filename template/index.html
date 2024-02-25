@@ -12,7 +12,7 @@
 <body class="bg-black">
     <header>
         <nav class="flex place-content-between items-center mx-auto max-w-screen-lg w-full p-4">
-            <h1 class="font-bold text-3xl text-sky-600 shadow-white">IaaC <span class="font-normal">Platform</span>
+            <h1 class="font-bold text-3xl text-blue-600 shadow-white">IaaC <span class="font-normal">Platform</span>
             </h1>
             <div
                 class="z-50 w-64 h-16 max-w-lg bg-white border border-gray-200 rounded-full bottom-4 left-1/2 dark:bg-gray-700 dark:border-gray-600">
@@ -22,13 +22,13 @@
                         <i class="ri-home-4-fill"></i>
                         <span class="sr-only">Home</span>
                     </button>
-                    <button data-tooltip-target="tooltip-wallet" type="button"
+                    <button onclick="javascript:window.location.replace('docs')" data-tooltip-target="tooltip-wallet" type="button"
                         class="inline-flex flex-col items-center justify-center text-2xl px-5 rounded-s-full hover:bg-gray-50 dark:hover:bg-gray-800  text-gray-500 hover:text-blue-600">
                         <i class="ri-book-fill"></i>
                         <span class="sr-only">Documentation</span>
                     </button>
                     <div class="flex items-center justify-center">
-                        <button data-tooltip-target="tooltip-new" type="button"
+                        <button onclick="javascript:window.location.replace('login.html')" data-tooltip-target="tooltip-new" type="button"
                             class="inline-flex items-center justify-center w-10 h-10 font-medium bg-blue-600 rounded-full hover:bg-blue-700 group focus:ring-4 focus:ring-blue-300 focus:outline-none dark:focus:ring-blue-800 text-white">
                             <i class="ri-add-line"></i>
                             <span class="sr-only">New item</span>
@@ -50,10 +50,10 @@
                     cloud-native operational excellence.
                 </p>
                 <div class="mx-auto max-w-screen-lg w-full p-4">
-                    <a href="/admin"
+                    <a href="login.html"
                         class="text-white hover:text-white hover:opacity-90 rounded h-10 px-4 sm:w-32 inline-flex items-center justify-center mr-2 transition-colors duration-200 bg-blue-600 border-blue-600 hover:bg-blue-700 cursor-pointer">Get
                         started</a>
-                    <a href="/docs"
+                    <a href="docs"
                         class="text-white hover:text-white hover:bg-theme-red rounded border border-theme-red h-10 px-4 sm:w-32 inline-flex items-center justify-center transition-colors duration-200 hover:bg-blue-600 hover:border-blue-600">Learn more</a>
                 </div>
                 <div
@@ -224,14 +224,14 @@
 
 <section class="bg-center bg-no-repeat bg-[url('https://flowbite.s3.amazonaws.com/docs/jumbotron/conference.jpg')] bg-gray-700 bg-blend-multiply">
     <div class="px-4 mx-auto max-w-screen-xl text-center py-24 lg:py-56">
-        <h1 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Enterprise ready IaaC Platform</h1>
+        <h2 class="mb-4 text-4xl font-extrabold tracking-tight leading-none text-white md:text-5xl lg:text-6xl">Enterprise ready IaaC Platform</h2>
         <p class="mb-8 text-lg font-normal text-gray-300 lg:text-xl sm:px-16 lg:px-48">Powerful yet cloud platform that built with Kubernetes-Native, Terraform and latest pipeline technologies.</p>
         <div class="flex flex-col space-y-4 sm:flex-row sm:justify-center sm:space-y-0">
-            <a href="#" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
+            <a href="login.html" class="inline-flex justify-center items-center py-3 px-5 text-base font-medium text-center text-white rounded-lg bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 dark:focus:ring-blue-900">
                 Get started
                 <i class="ri-arrow-right-s-line ms-2"></i>
             </a>
-            <a href="#" class="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 sm:ms-4 text-base font-medium text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
+            <a href="docs" class="inline-flex justify-center hover:text-gray-900 items-center py-3 px-5 sm:ms-4 text-base font-medium text-center text-white rounded-lg border border-white hover:bg-gray-100 focus:ring-4 focus:ring-gray-400">
                 Learn more
             </a>  
         </div>
