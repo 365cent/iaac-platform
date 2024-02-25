@@ -6,14 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link rel="stylesheet" href="output.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.min.css">
 </head>
 
 <body>
-    <main class="bg-gray-900">
+    <main class="bg-gray-600 bg-[url('assets/cover.png')] bg-cover bg-no-repeat bg-center bg-blend-multiply">
+        <div class="absolute left-8 top-8">
+
+            <a class="text-gray-200 text-xl px-4 py-2 rounded-full hover:bg-blue-600" href="/">
+                <i class="ri-arrow-left-up-fill "> Go back to homepage</i>
+            </a>
+            <a class="text-gray-200 text-xl px-4 py-2 rounded-full hover:bg-blue-600" href="/docs">
+                <i class="ri-book-fill "> Check Documentation</i>
+            </a>
+        </div>
         <div class="flex flex-col justify-center items-center py-8 px-6 mx-auto md:h-screen">
             <h1 class="font-bold text-4xl p-4 text-blue-600 shadow-white">IaaC <span class="font-normal">Platform</span></h1>
                 <div
-                    class="justify-center items-center w-full bg-white rounded-lg shadow lg:flex md:mt-0 lg:max-w-screen-sm xl:p-0 dark:bg-gray-800">
+                    class="justify-center items-center w-full bg-gray-200 opacity-90 rounded-lg shadow lg:flex md:mt-0 lg:max-w-screen-sm xl:p-0 dark:bg-gray-800">
                     <div class="p-6 w-full sm:p-8 lg:p-10">
                         <h1 class="mb-3 text-2xl font-bold text-gray-900 lg:text-3xl dark:text-white">Log in</h1>
                         <p class="mb-3 text-gray-500 dark:text-gray-400">Powerful yet cloud platform that built with Kubernetes-Native, Terraform and latest pipeline technologies.</p>
