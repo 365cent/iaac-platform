@@ -66,12 +66,27 @@ func main() {
 		tmpl.ExecuteTemplate(w, "index.html", nil)
 	})
 
-	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.Dir("templates/assets"))))
+	r.Get("/login", func(w http.ResponseWriter, r *http.Request) {
+		// Your login handler logic here
+		tmpl.ExecuteTemplate(w, "login.html", nil)
+	})
+
+	r.Get("/admin", func(w http.ResponseWriter, r *http.Request) {
+		// redirect to provider.html
+		http.Redirect(w, r, "/provider", http.StatusSeeOther)
+	})
+
+	r.Get("/provider", func(w http.ResponseWriter, r *http.Request) {
+		// Your provider handler logic here
+		tmpl.ExecuteTemplate(w, "provider.html", nil)
+	})
 
 	r.Post("/provision", provisionHandler)
 
+	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.Dir("templates/assets"))))
+
 	// Start the server
-	fmt.Println("Starting server on :8080")
+	fmt.Println("Starting server on http://127.0.0.1:8080")
 	http.ListenAndServe(":8080", r)
 }
 
