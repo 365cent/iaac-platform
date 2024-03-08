@@ -1,6 +1,5 @@
 variable "token" {
   description = "Your Linode API Personal Access Token. (required)"
-  default = "0a5c8ce5613ae1be44952c0935f8ad19198d05c3f5d8564178bc1c4a634987f4"
 }
 
 variable "k8s_version" {
