@@ -2,6 +2,7 @@ package main
 
 import (
 	"bytes"
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"html/template"
@@ -48,6 +49,26 @@ func generateTerraformFile(config TerraformConfig) (string, error) {
 	}
 
 	return buffer.String(), nil
+}
+
+func isBase64(s string) bool {
+	// Check if the string length is a multiple of 4
+	// This check is relaxed to allow for optional padding.
+	if len(s)%4 != 0 && (len(s)+1)%4 != 0 && (len(s)+2)%4 != 0 {
+		return false
+	}
+
+	// Check if the string contains only valid Base64 characters
+	for _, r := range s {
+		if !((r >= 'A' && r <= 'Z') || (r >= 'a' && r <= 'z') || (r >= '0' && r <= '9') || r == '+' || r == '/' || r == '=') {
+			return false
+		}
+	}
+
+	// Optionally, try decoding it to check if it's valid Base64
+	// Note: This will also return true for strings that are technically valid Base64 but weren't necessarily encoded from binary data
+	_, err := base64.StdEncoding.DecodeString(s)
+	return err == nil
 }
 
 func main() {
@@ -189,16 +210,19 @@ func executeTerraformCommand(w http.ResponseWriter, command string, args ...stri
 	} else {
 		log.Printf("Successfully executed %s", command)
 		log.Printf("Output: %s", out)
-
-		// if out contains Terraform has been successfully initialized!
-		// if strings.Contains(string(out), initText) {
-		// 	// write output to response
-		// 	w.Write([]byte(initText))
-		// }
-
-		// if out end with =, decode base64 and write to response
-		if strings.HasSuffix(string(out), "=") {
-			// write output to response
+		// check if out is base64 format
+		if isBase64(string(out)) {
+			// remove first and last character from out
+			if out[0] == '"' && out[len(out)-1] == '"' {
+				out = out[1 : len(out)-1]
+			}
+			// decode base64 kubeconfig
+			kubeconfig, err := base64.StdEncoding.DecodeString(string(out))
+			if err != nil {
+				log.Printf("Error decoding kubeconfig: %s", err)
+			}
+			w.Write(kubeconfig)
+		} else {
 			w.Write(out)
 		}
 	}
