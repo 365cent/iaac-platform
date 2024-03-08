@@ -773,6 +773,14 @@ video {
   margin-right: auto;
 }
 
+.mt-16 {
+  margin-top: 4rem;
+}
+
+.-mt-16 {
+  margin-top: -4rem;
+}
+
 .block {
   display: block;
 }
@@ -965,6 +973,10 @@ video {
   flex: none;
 }
 
+.origin-center {
+  transform-origin: center;
+}
+
 .translate-y-32 {
   --tw-translate-y: 8rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -991,6 +1003,16 @@ video {
 
 .animate-pulse {
   animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
 }
 
 .cursor-pointer {
@@ -1302,6 +1324,11 @@ video {
   background-color: rgb(23 37 84 / var(--tw-bg-opacity));
 }
 
+.bg-gray-400 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(156 163 175 / var(--tw-bg-opacity));
+}
+
 .bg-\[url\(\'\.\.\/assets\/cover\.png\'\)\] {
   background-image: url('../assets/cover.png');
 }
@@ -1486,6 +1513,11 @@ video {
 .text-xs {
   font-size: 0.75rem;
   line-height: 1rem;
+}
+
+.text-6xl {
+  font-size: 3.75rem;
+  line-height: 1;
 }
 
 .font-bold {
@@ -2025,6 +2057,11 @@ video {
 .group:hover .group-hover\:bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
+}
+
+.group:hover .group-hover\:bg-gray-600 {
+  --tw-bg-opacity: 1;
+  background-color: rgb(75 85 99 / var(--tw-bg-opacity));
 }
 
 .group:hover .group-hover\:text-blue-600 {
