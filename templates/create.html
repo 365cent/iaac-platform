@@ -1,25 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Enter API Token - IaaC Platform</title>
+    <title>Select Provider - IaaC Platform</title>
     <link href="assets/output.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.min.css">
+    <link rel="preload" href="https://fastly.jsdelivr.net/npm/remixicon@4.1.0/fonts/remixicon.min.css" as="style"
+        onload="this.onload=null;this.rel='stylesheet'">
 </head>
+
 <body class="bg-gray-900 text-white">
     <header class="bg-black">
         <nav class="mx-auto flex max-w-7xl items-center justify-betwee p-6 lg:px-8" aria-label="Global">
             <div class="flex lg:flex-1">
                 <a href="#" class="-m-1.5 p-1.5">
                     <span class="sr-only">Your Company</span>
-                    <h1 class="font-bold text-2xl text-blue-600 shadow-white">IaaC <span class="font-normal">Platform</span>
+                    <h1 class="font-bold text-2xl text-blue-600 shadow-white">IaaC <span
+                            class="font-normal">Platform</span>
                     </h1>
                 </a>
             </div>
             <div class="flex lg:hidden ml-auto text-gray-200">
-                <button type="button"
-                    class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 open-menu">
+                <button type="button" class="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 open-menu">
                     <span class="sr-only">Open main menu</span>
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"
                         aria-hidden="true">
@@ -201,11 +204,6 @@
                                     class="flex w-full items-center justify-between rounded-lg py-2 pl-3 pr-3.5 text-base font-semibold leading-7 text-gray-900 hover:bg-gray-50"
                                     aria-controls="disclosure-1" aria-expanded="false">
                                     Product
-                                    <!--
-                        Expand/collapse icon, toggle classes based on menu open state.
-      
-                        Open: "rotate-180", Closed: ""
-                      -->
                                     <svg class="h-5 w-5 flex-none" viewBox="0 0 20 20" fill="currentColor"
                                         aria-hidden="true">
                                         <path fill-rule="evenodd"
@@ -251,41 +249,90 @@
         </div>
     </header>
 
-    <main class="flex h-dvh -mt-32 mx-4">
-        <section class="m-auto w-full max-w-screen-sm">
+    <main class="h-dvh -mt-32 mx-4">
+        <form action="/provision" method="post" class="flex flex-col">
+            <section class="provider m-auto w-full max-w-screen-sm mt-64 aria-checked:opacity-20 aria-checked:-mt-96 aria-busy:-mt-32">
+                <h2 class="text-3xl font-bold mb-6">Select Provider</h2>
+                <div class="grid gap-4 provider-selection">
+                    <!-- Hidden radio inputs -->
+                    <input type="radio" name="provider" value="linode" id="linode" class="hidden peer">
+                    <label for="linode"
+                        class="group flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
+                        <img src="assets/akamai.svg" alt="Linode" class="mx-auto w-12 h-12 group-hover:hidden">
+                        <i class="hidden not-italic m-auto text-gray-400 text-sm group-hover:block">Akamai Connected
+                            Cloud</i>
+                    </label>
+                    <input type="radio" name="provider" value="digitalocean" id="digitalocean" class="hidden peer">
+                    <label for="digitalocean"
+                        class="group flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
+                        <img src="assets/digitalocean.svg" alt="DigitalOcean" class="mx-auto w-12 h-6">
+                        <i class="hidden not-italic m-auto text-gray-400 group-hover:block">DigitalOcean</i>
+                    </label>
+                    <input type="radio" name="provider" value="aws" id="aws" class="hidden peer">
+                    <label for="aws"
+                        class="group flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
+                        <img src="assets/aws.png" alt="AWS" class="mx-auto w-9 h-6 group-hover:hidden">
+                        <i class="hidden not-italic m-auto text-gray-400 text-sm group-hover:block">Amazon Web
+                            Services</i>
+                    </label>
+                    <input disabled type="radio" name="provider" value="gcp" id="gcp" class="hidden peer">
+                    <label aria-disabled="true" for="gcp"
+                        class="group flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer aria-disabled:opacity-40 aria-disabled:cursor-default">
+                        <img src="assets/gcp.svg" alt="GCP" class="mx-auto w-8 h-8">
+                        <i class="hidden not-italic m-auto text-gray-400 group-hover:block">Google Cloud</i>
+                    </label>
+                    <input disabled type="radio" name="provider" value="ibm" id="ibm" class="hidden peer">
+                    <label aria-disabled="true" for="ibm"
+                        class="group flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer aria-disabled:opacity-40 aria-disabled:cursor-default">
+                        <img src="assets/ibm.svg" alt="ibm" class="mx-auto w-8 h-8">
+                        <i class="hidden not-italic m-auto text-gray-400 group-hover:block">IBM Cloud</i>
+                    </label>
+                    <input disabled type="radio" name="provider" value="more" id="none" class="hidden peer">
+                    <label aria-disabled="true" for="more"
+                        class="group flex items-center relative h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
+                        <i class="ri-more-fill mx-auto text-3xl text-gray-200 group-hover:hidden"></i>
+                        <i class="hidden not-italic m-auto text-gray-400 group-hover:block">More available soon</i>
+                    </label>
 
-        <h2 class="text-3xl font-bold mb-6">Select Provider</h2>
-        <form action="/api-token
-        .html" method="GET" class="grid gap-4 provider-selection">
-            <!-- Hidden radio inputs -->
-            <input type="radio" name="provider" value="linode" id="linode" class="hidden peer">
-            <label for="linode" class="flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
-                <img src="assets/akamai.svg" alt="Linode" class="mx-auto w-12 h-12">
-            </label>
-            <input type="radio" name="provider" value="digitalocean" id="digitalocean" class="hidden peer">
-            <label for="digitalocean" class="flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
-                <img src="assets/digitalocean.svg" alt="DigitalOcean" class="mx-auto w-12 h-6">
-            </label>
-            <input type="radio" name="provider" value="aws" id="aws" class="hidden peer">
-            <label for="aws" class="flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
-                <img src="assets/aws.png" alt="AWS" class="mx-auto w-9 h-6">
-            </label>
-            <input type="radio" name="provider" value="gcp" id="gcp" class="hidden peer">
-            <label for="gcp" class="flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
-                <img src="assets/gcp.svg" alt="GCP" class="mx-auto w-8 h-8">
-            </label>
-            <input type="radio" name="provider" value="ibm" id="ibm" class="hidden peer">
-            <label for="ibm" class="flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
-                <img src="assets/ibm.svg" alt="ibm" class="mx-auto w-8 h-8">
-            </label>
-            <input type="radio" name="provider" value="ibm" id="none" class="hidden peer">
-            <label for="ibm" class="flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
-                <i class="ri-more-fill mx-auto text-3xl text-gray-200"></i>
-            </label>
+                    <button type="button" class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">Next</button>
+                </div>
+            </section>
+            <section aria-checked="true" class="token m-auto w-full max-w-screen-sm  mt-32 aria-checked:opacity-20">
+                <form action="/provision" method="POST" class="grid gap-4 token-selection">
+                    <h2 class="text-3xl font-bold mb-6">Enter Token</h2>
+                    <div class="flex">
 
-            <button type="submit" class="mt-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">Next</button>
+                        <input type="text" name="token" id="token" class="w-full p-2 text-sm bg-gray-800 rounded-lg"
+                            placeholder="Enter your token">
+                        <button type="button"
+                            class="ml-4 px-16 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">Next</button>
+                    </div>
+            </section>
+            <section aria-checked="true" class="confirm m-auto w-full max-w-screen-sm mt-32 aria-checked:opacity-20">
+                <h2 class="text-3xl font-bold mb-6">Confirmation</h2>
+                <p>The following services will be created</p>
+                <p class="flex items-center justify-between mt-2 p-4 bg-gray-800 rounded-lg">
+                    <span class="text-sm">Kubernetes</span>
+                    <span class="text-sm">1</span>
+                </p>
+                <ul role="list" class="grid gap-2 mt-2 ml-8 marker:content-['→_'] marker:text-sky-400 list-disc list-outside"
+                    aria-label="Virtual Machines">
+                    <li class="p-4 bg-gray-800 rounded-lg">
+                        Virtual Machine
+                    </li>
+                    <li class="p-4 bg-gray-800 rounded-lg">
+                        Virtual Machine
+                    </li>
+                    <li class="p-4 bg-gray-800 rounded-lg">
+                        Virtual Machine
+                    </li>
+                </ul>
+                <div class="grid grid-cols-[1fr_auto] gap-4 justify-items-end">
+                    <button type="reset" class="mt-4 px-16 py-2 bg-blue-950 hover:bg-blue-900 rounded-md">Start Over</button>
+                    <button type="submit" class="mt-4 px-16 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">Provision</button>
+                </div>
+            </section>
         </form>
-        </section>
     </main>
 
     <footer
@@ -310,4 +357,5 @@
     </footer>
     <script src="assets/script.js"></script>
 </body>
+
 </html>
