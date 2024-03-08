@@ -334,13 +334,17 @@
         </form>
     </main>
     <div class="provision hidden h-dvh mx-4">
-        <div class="progess grid m-auto">
+        <div class="progress grid m-auto">
             <i class="ri-donut-chart-line m-auto animate-spin text-6xl text-blue-600"></i>
             <h2 class="mt-16 text-3xl font-bold mb-6">Provisioning ...</h2>
         </div>
         <div class="success hidden m-auto">
             <h2 class="-mt-16 text-3xl font-bold mb-6">Your kubeconf file:</h2>
             <textarea class="bg-gray-400 p-4 rounded-md" name="kubeconf" id="" cols="60" rows="10"></textarea>
+        </div>
+        <div class="failure hidden m-auto">
+            <i class="ri-error-warning-line m-auto text-6xl text-red-500"></i>
+            <h2 class="mt-16 text-3xl font-bold mb-6">Error provisioning</h2>
         </div>
     </div>
 
