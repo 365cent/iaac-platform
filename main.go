@@ -9,10 +9,12 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
+	"strings"
 	ttemplate "text/template"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
+	"github.com/gorilla/websocket"
 )
 
 // TerraformConfig holds the Terraform configuration parameters
@@ -31,8 +33,9 @@ type ProvisionRequest struct {
 	APIKey   string `json:"apiKey"`
 }
 
+var upgrader = websocket.Upgrader{}
+
 // Constants and variables
-// token = "0a5c8ce5613ae1be44952c0935f8ad19198d05c3f5d8564178bc1c4a634987f4"
 const terraformTemplate = `token = "{{ .Token }}"`
 
 func generateTerraformFile(config TerraformConfig) (string, error) {
@@ -84,6 +87,9 @@ func main() {
 	r.Post("/provision", provisionHandler)
 
 	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.Dir("templates/assets"))))
+
+	// Websocket
+	r.Handle("/ws", http.HandlerFunc(websocketHandler))
 
 	// Start the server
 	fmt.Println("Starting server on http://127.0.0.1:8080")
@@ -142,10 +148,15 @@ func provisionHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 	for _, file := range tempFiles {
-		// copy all files from platform directory to terraform directory
-		if err := os.WriteFile("terraform/"+file.Name(), []byte(file.Name()), 0644); err != nil {
-			http.Error(w, "Error saving Terraform file", http.StatusInternalServerError)
-			return
+		// copy all .tf files to terraform directory
+		if strings.HasSuffix(file.Name(), ".tf") {
+			data, err := os.ReadFile(request.Platform + "/" + file.Name())
+			if err != nil {
+				log.Fatal(err)
+			}
+			if err := os.WriteFile("terraform/"+file.Name(), data, 0644); err != nil {
+				log.Fatal(err)
+			}
 		}
 	}
 
@@ -156,20 +167,61 @@ func provisionHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Execute Terraform commands
-	executeTerraformCommand("terraform", "init")
-	executeTerraformCommand("terraform", "apply", "-auto-approve")
+	executeTerraformCommand(w, "terraform", "init")
+
+	executeTerraformCommand(w, "terraform", "apply", "-auto-approve")
 
 	fmt.Fprintf(w, "Provisioning initiated")
 }
 
-func executeTerraformCommand(command string, args ...string) {
+func executeTerraformCommand(w http.ResponseWriter, command string, args ...string) {
 	cmd := exec.Command(command, args...)
 	cmd.Dir = "terraform"
 	if out, err := cmd.CombinedOutput(); err != nil {
 		log.Printf("Error executing %s: %s", command, err)
 		log.Printf("Output: %s", out)
+		http.Error(w, "Error executing Terraform command", http.StatusInternalServerError)
+
 	} else {
 		log.Printf("Successfully executed %s", command)
 		log.Printf("Output: %s", out)
+		// write ouput to response
+		w.Write(out)
+
 	}
+}
+
+func websocketHandler(w http.ResponseWriter, r *http.Request) {
+	// Upgrade the HTTP connection to a WebSocket
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		log.Fatal("Error upgrading to WebSocket:", err)
+	}
+	defer conn.Close()
+
+	// // Send a message to the client
+	// if err := conn.WriteMessage(websocket.TextMessage, []byte("Hello from the server!")); err != nil {
+	// 	log.Fatal("Error writing message:", err)
+	// }
+
+	// // Read a message from the client
+	// _, message, err := conn.ReadMessage()
+	// if err != nil {
+	// 	log.Fatal("Error reading message:", err)
+	// }
+	// log.Printf("Received: %s", message)
+}
+
+func sendMessage(conn *websocket.Conn, message string) {
+	if err := conn.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
+		log.Fatal("Error writing message:", err)
+	}
+}
+
+func receiveMessage(conn *websocket.Conn) string {
+	_, message, err := conn.ReadMessage()
+	if err != nil {
+		log.Fatal("Error reading message:", err)
+	}
+	return string(message)
 }
