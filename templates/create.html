@@ -45,12 +45,12 @@
                         </svg>
                     </button>
                     <div
-                        class="hidden absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-white shadow-lg ring-1 ring-gray-900/5 context-menu">
+                        class="hidden absolute -left-8 top-full z-10 mt-3 w-screen max-w-md overflow-hidden rounded-3xl bg-black shadow-lg ring-1 ring-gray-900/5 context-menu">
                         <div class="p-4">
                             <div
                                 class="group relative flex items-center gap-x-6 rounded-lg p-4 text-sm leading-6 hover:bg-gray-50">
                                 <div
-                                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-white">
+                                    class="flex h-11 w-11 flex-none items-center justify-center rounded-lg bg-gray-50 group-hover:bg-gray-600">
                                     <svg class="h-6 w-6 text-gray-100 group-hover:text-blue-600" fill="none"
                                         viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
                                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -184,9 +184,8 @@
                 <div class="flex items-center justify-between">
                     <a href="#" class="-m-1.5 p-1.5">
                         <span class="sr-only">Your Company</span>
-                        <img class="h-8 w-auto"
-                            src="https://www.bigbluebubble.com/wp-content/uploads/2017/05/BBB_WebsiteHeaderLogo.png"
-                            alt="">
+                        <h1 class="font-bold text-2xl text-blue-600 shadow-white">IaaC <span class="font-normal">Platform</span>
+                        </h1>
                     </a>
                     <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700 close-menu">
                         <span class="sr-only">Close menu</span>
@@ -334,6 +333,16 @@
             </section>
         </form>
     </main>
+    <div class="provision hidden h-dvh mx-4">
+        <div class="progess grid m-auto">
+            <i class="ri-donut-chart-line m-auto animate-spin text-6xl text-blue-600"></i>
+            <h2 class="mt-16 text-3xl font-bold mb-6">Provisioning ...</h2>
+        </div>
+        <div class="success hidden m-auto">
+            <h2 class="-mt-16 text-3xl font-bold mb-6">Your kubeconf file:</h2>
+            <textarea class="bg-gray-400 p-4 rounded-md" name="kubeconf" id="" cols="60" rows="10"></textarea>
+        </div>
+    </div>
 
     <footer
         class="fixed bottom-0 left-0 z-20 w-full p-4 bg-black border-t border-gray-800 shadow md:flex md:items-center md:justify-between md:p-6 dark:bg-gray-800 dark:border-gray-600">
