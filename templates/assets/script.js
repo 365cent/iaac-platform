@@ -59,12 +59,14 @@ document.addEventListener('DOMContentLoaded', function () {
     provSub.addEventListener('click', function () {
         prov.setAttribute('aria-busy', 'true');
         tok.setAttribute('aria-checked', 'false');
+        document.title = "Enter Token";
     });
 
     tokSub.addEventListener('click', function () {
         prov.setAttribute('aria-checked', 'true');
         tok.setAttribute('aria-checked', 'true');
         conf.setAttribute('aria-checked', 'false');
+        document.title = "Confirm Provision";
     });
 
     confRes.addEventListener('click', function () {
