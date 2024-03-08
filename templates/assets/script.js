@@ -16,6 +16,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const provision = document.querySelector('.provision');
     const proProg = document.querySelector('.provision .progress');
     const proSucc = document.querySelector('.provision .success');
+    const proFail = document.querySelector('.provision .failure');
 
     const startOver = () => {
         prov.setAttribute('aria-checked', 'false');
@@ -82,6 +83,16 @@ document.addEventListener('DOMContentLoaded', function () {
             main.classList.add('hidden');
             provision.classList.remove('hidden');
             provision.classList.add('grid');
+            switch (platform) {
+                case 'linode':
+                    window.open('https://cloud.linode.com/kubernetes/clusters', '_blank');
+                    window.focus();
+                    break;
+                case 'digitalocean':
+                    window.open('https://cloud.digitalocean.com/kubernetes/clusters', '_blank');
+                    window.focus();
+                    break;
+            }
             conf.setAttribute('aria-checked', 'true');
             // send the data to the server
             fetch('/provision', {
@@ -105,12 +116,27 @@ document.addEventListener('DOMContentLoaded', function () {
                     proProg.classList.remove('grid');
                     proProg.classList.add('hidden');
                     proSucc.classList.remove('hidden');
-                    progSucc.classList.add('grid');
+                    proSucc.classList.add('grid');
                     proSucc.querySelector('textarea').value = data;
+
+                    // create a blob for the file
+                    const blob = new Blob([data], { type: 'text/yaml' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'kubeconfig.yaml';
+                    a.click();
+                    URL.revokeObjectURL(url);
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
+                proProg.classList.remove('grid');
+                proProg.classList.add('hidden');
+                proFail.classList.remove('hidden');
+                proFail.classList.add('grid');
+                alert("An error occurred while trying to provision the service. Please try again later.");
+                window.location.reload();
             });
         }
 
