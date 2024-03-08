@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const contextToggle = document.querySelector('.context-toggle');
     const menu = document.querySelector('div[role="dialog"]');
     const contextMenu = document.querySelector('.context-menu');
-    const form = document.querySelector('form');
+    const main = document.querySelector('main');
     const prov = document.querySelector('.provider');
     const provSub = document.querySelector('.provider button');
     const tok = document.querySelector('.token');
@@ -13,6 +13,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const confRes = document.querySelector('.confirm button[type="reset"]');
     const confSub = document.querySelector('.confirm button[type="submit"]');
     const labels = document.querySelectorAll('label:not([aria-disabled])');
+    const provision = document.querySelector('.provision');
+    const proProg = document.querySelector('.provision .progress');
+    const proSucc = document.querySelector('.provision .success');
 
     const startOver = () => {
         prov.setAttribute('aria-checked', 'false');
@@ -76,6 +79,10 @@ document.addEventListener('DOMContentLoaded', function () {
             const data = new Object();
             data.platform = platform;
             data.apiKey = apiKey;
+            main.classList.add('hidden');
+            provision.classList.remove('hidden');
+            provision.classList.add('grid');
+            conf.setAttribute('aria-checked', 'true');
             // send the data to the server
             fetch('/provision', {
                 method: 'POST',
@@ -84,8 +91,23 @@ document.addEventListener('DOMContentLoaded', function () {
                 },
                 body: JSON.stringify(data)
             })
+            .then(response => response.text())
             .then(data => {
-                console.log('Success:', data);
+                // if data contains error
+                if (data.includes('Error')) {
+                    console.log('Error:', data);
+                    alert("An error occurred while trying to provision the service. Please try again later.");
+                    provision.classList.add('hidden');
+                    main.classList.remove('hidden');
+                    startOver();
+                } else {
+                    console.log('Success:', data);
+                    proProg.classList.remove('grid');
+                    proProg.classList.add('hidden');
+                    proSucc.classList.remove('hidden');
+                    progSucc.classList.add('grid');
+                    proSucc.querySelector('textarea').value = data;
+                }
             })
             .catch(error => {
                 console.error('Error:', error);
