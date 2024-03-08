@@ -222,7 +222,9 @@ func executeTerraformCommand(w http.ResponseWriter, command string, args ...stri
 				log.Printf("Error decoding kubeconfig: %s", err)
 			}
 			w.Write(kubeconfig)
-		} else {
+		} else if strings.Contains(string(out), "tolist") {
+			// remove tolist([ and ,]) from out
+			out = out[8 : len(out)-3]
 			w.Write(out)
 		}
 	}
