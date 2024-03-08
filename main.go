@@ -14,7 +14,6 @@ import (
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
-	"github.com/gorilla/websocket"
 )
 
 // TerraformConfig holds the Terraform configuration parameters
@@ -32,8 +31,6 @@ type ProvisionRequest struct {
 	Platform string `json:"platform"`
 	APIKey   string `json:"apiKey"`
 }
-
-var upgrader = websocket.Upgrader{}
 
 // Constants and variables
 const terraformTemplate = `token = "{{ .Token }}"`
@@ -87,9 +84,6 @@ func main() {
 	r.Post("/provision", provisionHandler)
 
 	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.Dir("templates/assets"))))
-
-	// Websocket
-	r.Handle("/ws", http.HandlerFunc(websocketHandler))
 
 	// Start the server
 	fmt.Println("Starting server on http://127.0.0.1:8080")
@@ -166,17 +160,27 @@ func provisionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// fmt.Fprintf(w, "Provisioning initiated")
+
 	// Execute Terraform commands
 	executeTerraformCommand(w, "terraform", "init")
 
 	executeTerraformCommand(w, "terraform", "apply", "-auto-approve")
 
-	fmt.Fprintf(w, "Provisioning initiated")
+	// if no error from above, clear http.ResponseWriter and write kubeconfig to w
+
+	// terraform output kubeconfig > kubeconfig.yaml
+
+	executeTerraformCommand(w, "terraform", "output", "kubeconfig")
+
+	// if w contains no error, write
 }
 
 func executeTerraformCommand(w http.ResponseWriter, command string, args ...string) {
+	// initText := "Terraform has been successfully initialized!\n"
 	cmd := exec.Command(command, args...)
 	cmd.Dir = "terraform"
+
 	if out, err := cmd.CombinedOutput(); err != nil {
 		log.Printf("Error executing %s: %s", command, err)
 		log.Printf("Output: %s", out)
@@ -185,43 +189,17 @@ func executeTerraformCommand(w http.ResponseWriter, command string, args ...stri
 	} else {
 		log.Printf("Successfully executed %s", command)
 		log.Printf("Output: %s", out)
-		// write ouput to response
-		w.Write(out)
 
+		// if out contains Terraform has been successfully initialized!
+		// if strings.Contains(string(out), initText) {
+		// 	// write output to response
+		// 	w.Write([]byte(initText))
+		// }
+
+		// if out end with =, decode base64 and write to response
+		if strings.HasSuffix(string(out), "=") {
+			// write output to response
+			w.Write(out)
+		}
 	}
-}
-
-func websocketHandler(w http.ResponseWriter, r *http.Request) {
-	// Upgrade the HTTP connection to a WebSocket
-	conn, err := upgrader.Upgrade(w, r, nil)
-	if err != nil {
-		log.Fatal("Error upgrading to WebSocket:", err)
-	}
-	defer conn.Close()
-
-	// // Send a message to the client
-	// if err := conn.WriteMessage(websocket.TextMessage, []byte("Hello from the server!")); err != nil {
-	// 	log.Fatal("Error writing message:", err)
-	// }
-
-	// // Read a message from the client
-	// _, message, err := conn.ReadMessage()
-	// if err != nil {
-	// 	log.Fatal("Error reading message:", err)
-	// }
-	// log.Printf("Received: %s", message)
-}
-
-func sendMessage(conn *websocket.Conn, message string) {
-	if err := conn.WriteMessage(websocket.TextMessage, []byte(message)); err != nil {
-		log.Fatal("Error writing message:", err)
-	}
-}
-
-func receiveMessage(conn *websocket.Conn) string {
-	_, message, err := conn.ReadMessage()
-	if err != nil {
-		log.Fatal("Error reading message:", err)
-	}
-	return string(message)
 }
