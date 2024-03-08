@@ -9,8 +9,7 @@ import (
 	"net/http"
 	"os"
 	"os/exec"
-
-	textTemplate "text/template"
+	ttemplate "text/template"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -28,15 +27,16 @@ type TerraformConfig struct {
 
 // ProvisionRequest is used to decode JSON request for provisioning
 type ProvisionRequest struct {
-	APIKey   string `json:"apiKey"`
 	Platform string `json:"platform"`
+	APIKey   string `json:"apiKey"`
 }
 
 // Constants and variables
-const terraformTemplate = `// Terraform template here...`
+// token = "0a5c8ce5613ae1be44952c0935f8ad19198d05c3f5d8564178bc1c4a634987f4"
+const terraformTemplate = `token = "{{ .Token }}"`
 
 func generateTerraformFile(config TerraformConfig) (string, error) {
-	tmpl, err := textTemplate.New("terraform").Parse(terraformTemplate)
+	tmpl, err := ttemplate.New("terraform").Parse(terraformTemplate)
 	if err != nil {
 		return "", fmt.Errorf("error parsing Terraform template: %w", err)
 	}
@@ -73,12 +73,12 @@ func main() {
 
 	r.Get("/admin", func(w http.ResponseWriter, r *http.Request) {
 		// redirect to provider.html
-		http.Redirect(w, r, "/provider", http.StatusSeeOther)
+		http.Redirect(w, r, "/create", http.StatusSeeOther)
 	})
 
-	r.Get("/provider", func(w http.ResponseWriter, r *http.Request) {
+	r.Get("/create", func(w http.ResponseWriter, r *http.Request) {
 		// Your provider handler logic here
-		tmpl.ExecuteTemplate(w, "provider.html", nil)
+		tmpl.ExecuteTemplate(w, "create.html", nil)
 	})
 
 	r.Post("/provision", provisionHandler)
@@ -98,16 +98,15 @@ func provisionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate API key
-	if request.APIKey != "your_valid_api_key" {
-		http.Error(w, "Invalid API key", http.StatusUnauthorized)
-		return
-	}
+	// // Validate API key
+	// if request.APIKey != "your_valid_api_key" {
+	// 	http.Error(w, "Invalid API key", http.StatusUnauthorized)
+	// 	return
+	// }
 
 	// Assume TerraformConfig is somehow obtained or constructed here
 	tfConfig := TerraformConfig{
-		Token: "your_linode_api_token",
-		// Other fields...
+		Token: request.APIKey,
 	}
 
 	// Generate Terraform file
@@ -117,8 +116,41 @@ func provisionHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// Create Terraform directory if it doesn't exist
+	if _, err := os.Stat("terraform"); os.IsNotExist(err) {
+		if err := os.Mkdir("terraform", 0755); err != nil {
+			http.Error(w, "Error creating Terraform directory", http.StatusInternalServerError)
+			return
+		}
+	}
+
+	// cleanup all files in terraform directory
+	files, err := os.ReadDir("terraform")
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, file := range files {
+		if err := os.RemoveAll("terraform/" + file.Name()); err != nil {
+			log.Fatal(err)
+		}
+	}
+
+	fmt.Println("Platform: ", request.Platform)
+
+	tempFiles, err := os.ReadDir(request.Platform)
+	if err != nil {
+		log.Fatal(err)
+	}
+	for _, file := range tempFiles {
+		// copy all files from platform directory to terraform directory
+		if err := os.WriteFile("terraform/"+file.Name(), []byte(file.Name()), 0644); err != nil {
+			http.Error(w, "Error saving Terraform file", http.StatusInternalServerError)
+			return
+		}
+	}
+
 	// Save .tf file
-	if err := os.WriteFile("terraform/cluster.tf", []byte(tfFileContent), 0644); err != nil {
+	if err := os.WriteFile("terraform/terraform.tfvars", []byte(tfFileContent), 0644); err != nil {
 		http.Error(w, "Error saving Terraform file", http.StatusInternalServerError)
 		return
 	}
@@ -138,5 +170,6 @@ func executeTerraformCommand(command string, args ...string) {
 		log.Printf("Output: %s", out)
 	} else {
 		log.Printf("Successfully executed %s", command)
+		log.Printf("Output: %s", out)
 	}
 }
