@@ -1,49 +1,51 @@
 terraform {
   required_providers {
-    digitalocean = {
-      source = "digitalocean/digitalocean"
-      version = "~> 2.0"
+    linode = {
+      source = "linode/linode"
+      version = "2.7.1"
     }
   }
 }
-//Use the digitalocean Provider
-provider "digitalocean" {
+//Use the Linode Provider
+provider "linode" {
   token = var.token
 }
 
-//Use the digitalocean_kubernetes_cluster resource to create
+//Use the linode_lke_cluster resource to create
 //a Kubernetes cluster
-resource "digitalocean_kubernetes_cluster" "foo" {
-    version = var.k8s_version
-    name = var.label
+resource "linode_lke_cluster" "foobar" {
+    k8s_version = var.k8s_version
+    label = var.label
     region = var.region
     tags = var.tags
 
-    node_pool {
-        name       = "worker-pool"
-        size       = "s-2vcpu-2gb"
-        node_count = 3
+    dynamic "pool" {
+        for_each = var.pools
+        content {
+            type  = pool.value["type"]
+            count = pool.value["count"]
+        }
     }
 }
 
 //Export this cluster's attributes
 output "kubeconfig" {
-  value = digitalocean_kubernetes_cluster.foo.kube_config
+  value = linode_lke_cluster.foobar.kubeconfig
   sensitive = true
 }
 
-// output "api_endpoints" {
-//  value = digitalocean_kubernetes_cluster.foo.api_endpoints
-// }
+output "api_endpoints" {
+  value = linode_lke_cluster.foobar.api_endpoints
+}
 
 output "status" {
-  value = digitalocean_kubernetes_cluster.foo.status
+  value = linode_lke_cluster.foobar.status
 }
 
 output "id" {
-  value = digitalocean_kubernetes_cluster.foo.id
+  value = linode_lke_cluster.foobar.id
 }
 
-// output "pool" {
-//  value = digitalocean_kubernetes_cluster.foo.pool
-// }
+output "pool" {
+  value = linode_lke_cluster.foobar.pool
+}
