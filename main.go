@@ -106,6 +106,8 @@ func main() {
 
 	r.Handle("/assets/*", http.StripPrefix("/assets/", http.FileServer(http.Dir("templates/assets"))))
 
+	r.Handle("/docs/*", http.StripPrefix("/docs/", http.FileServer(http.Dir("docs"))))
+
 	// Start the server
 	fmt.Println("Starting server on http://127.0.0.1:8080")
 	http.ListenAndServe(":8080", r)
