@@ -1,10 +1,18 @@
 variable "token" {
+<<<<<<< HEAD
   description = "Your Digitalocean API Personal Access Token. (required)"
+=======
+  description = "Your Linode API Personal Access Token. (required)"
+>>>>>>> refs/remotes/origin/main
 }
 
 variable "k8s_version" {
   description = "The Kubernetes version to use for this cluster. (required)"
+<<<<<<< HEAD
   default = "1.29.1-do.0"
+=======
+  default = "1.28"
+>>>>>>> refs/remotes/origin/main
 }
 
 variable "label" {
@@ -14,7 +22,11 @@ variable "label" {
 
 variable "region" {
   description = "The region where your cluster will be located. (required)"
+<<<<<<< HEAD
   default = "nyc1"
+=======
+  default = "us-east"
+>>>>>>> refs/remotes/origin/main
 }
 
 variable "tags" {
