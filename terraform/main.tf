@@ -1,49 +1,50 @@
 terraform {
   required_providers {
-    digitalocean = {
-      source = "digitalocean/digitalocean"
-      version = "~> 2.0"
+    ibm = {
+      source = "IBM-Cloud/ibm"
+      version = ">= 1.12.0"
     }
   }
 }
-//Use the digitalocean Provider
-provider "digitalocean" {
-  token = var.token
+
+provider "ibm" {
+  ibmcloud_api_key = var.token
+  region           = "us-south"
 }
 
-//Use the digitalocean_kubernetes_cluster resource to create
-//a Kubernetes cluster
-resource "digitalocean_kubernetes_cluster" "foo" {
-    version = var.k8s_version
-    name = var.label
-    region = var.region
-    tags = var.tags
-
-    node_pool {
-        name       = "worker-pool"
-        size       = "s-2vcpu-2gb"
-        node_count = 3
-    }
+resource "ibm_container_vpc_cluster" "cluster" {
+  name              = var.name
+  kube_version      = var.k8s_version
+  resource_group_id = data.ibm_resource_group.resource_group.id
+  zones {
+    subnet_id = ibm_is_subnet.subnet1.id # Example, needs proper subnet resource or variable
+    name      = var.worker_zones[0]
+  }
+  vpc_id            = ibm_is_vpc.vpc.id
+  flavor            = var.machine_type
+  worker_count      = var.default_worker_pool_size
 }
 
-//Export this cluster's attributes
-output "kubeconfig" {
-  value = digitalocean_kubernetes_cluster.foo.kube_config
-  sensitive = true
+data "ibm_resource_group" "resource_group" {
+  name = var.resource_group
 }
 
-// output "api_endpoints" {
-//  value = digitalocean_kubernetes_cluster.foo.api_endpoints
-// }
-
-output "status" {
-  value = digitalocean_kubernetes_cluster.foo.status
+# Example subnet resource, replace with actual subnet configuration or variable as needed
+resource "ibm_is_subnet" "subnet1" {
+  name                     = "my-subnet"
+  vpc                      = ibm_is_vpc.vpc.id
+  zone                     = var.worker_zones[0]
+  ipv4_cidr_block          = "10.240.0.0/24"
+  //public_gateway_id        = ibm_is_public_gateway.pg.id
 }
 
-output "id" {
-  value = digitalocean_kubernetes_cluster.foo.id
+# VPC and Public Gateway resources are placeholders, define them according to your network setup
+resource "ibm_is_vpc" "vpc" {
+  name = "my-vpc"
 }
 
-// output "pool" {
-//  value = digitalocean_kubernetes_cluster.foo.pool
-// }
+resource "ibm_is_public_gateway" "pg" {
+  vpc      = ibm_is_vpc.vpc.id
+  zone     = var.worker_zones[0]
+  name     = "my-public-gateway"
+}

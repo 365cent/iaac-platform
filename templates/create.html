@@ -184,7 +184,8 @@
                 <div class="flex items-center justify-between">
                     <a href="#" class="-m-1.5 p-1.5">
                         <span class="sr-only">Your Company</span>
-                        <h1 class="font-bold text-2xl text-blue-600 shadow-white">IaaC <span class="font-normal">Platform</span>
+                        <h1 class="font-bold text-2xl text-blue-600 shadow-white">IaaC <span
+                                class="font-normal">Platform</span>
                         </h1>
                     </a>
                     <button type="button" class="-m-2.5 rounded-md p-2.5 text-gray-700 close-menu">
@@ -250,7 +251,8 @@
 
     <main class="h-dvh -mt-32 mx-4">
         <form action="/provision" method="post" class="flex flex-col">
-            <section class="provider m-auto w-full max-w-screen-sm mt-64 aria-checked:opacity-20 aria-checked:-mt-96 aria-busy:-mt-32">
+            <section
+                class="provider m-auto w-full max-w-screen-sm mt-64 aria-checked:opacity-20 aria-checked:-mt-96 aria-busy:-mt-32">
                 <h2 class="text-3xl font-bold mb-6">Select Provider</h2>
                 <div class="grid gap-4 provider-selection">
                     <!-- Hidden radio inputs -->
@@ -274,17 +276,17 @@
                         <i class="hidden not-italic m-auto text-gray-400 text-sm group-hover:block">Amazon Web
                             Services</i>
                     </label>
+                    <input type="radio" name="provider" value="ibm" id="ibm" class="hidden peer">
+                    <label for="ibm"
+                        class="group flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer hover:bg-gray-700">
+                        <img src="assets/ibm.svg" alt="ibm" class="mx-auto w-8 h-8">
+                        <i class="hidden not-italic m-auto text-gray-400 group-hover:block">IBM Cloud</i>
+                    </label>
                     <input disabled type="radio" name="provider" value="gcp" id="gcp" class="hidden peer">
                     <label aria-disabled="true" for="gcp"
                         class="group flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer aria-disabled:opacity-40 aria-disabled:cursor-default">
                         <img src="assets/gcp.svg" alt="GCP" class="mx-auto w-8 h-8">
                         <i class="hidden not-italic m-auto text-gray-400 group-hover:block">Google Cloud</i>
-                    </label>
-                    <input disabled type="radio" name="provider" value="ibm" id="ibm" class="hidden peer">
-                    <label aria-disabled="true" for="ibm"
-                        class="group flex items-center h-20 p-4 bg-gray-800 rounded-lg cursor-pointer aria-disabled:opacity-40 aria-disabled:cursor-default">
-                        <img src="assets/ibm.svg" alt="ibm" class="mx-auto w-8 h-8">
-                        <i class="hidden not-italic m-auto text-gray-400 group-hover:block">IBM Cloud</i>
                     </label>
                     <input disabled type="radio" name="provider" value="more" id="none" class="hidden peer">
                     <label aria-disabled="true" for="more"
@@ -314,7 +316,8 @@
                     <span class="text-sm">Kubernetes</span>
                     <span class="text-sm">1</span>
                 </p>
-                <ul role="list" class="grid gap-2 mt-2 ml-8 marker:content-['→_'] marker:text-sky-400 list-disc list-outside"
+                <ul role="list"
+                    class="grid gap-2 mt-2 ml-8 marker:content-['→_'] marker:text-sky-400 list-disc list-outside"
                     aria-label="Virtual Machines">
                     <li class="p-4 bg-gray-800 rounded-lg">
                         Virtual Machine
@@ -327,8 +330,10 @@
                     </li>
                 </ul>
                 <div class="grid grid-cols-[1fr_auto] gap-4 justify-items-end">
-                    <button type="reset" class="mt-4 px-16 py-2 bg-blue-950 hover:bg-blue-900 rounded-md">Start Over</button>
-                    <button type="submit" class="mt-4 px-16 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">Provision</button>
+                    <button type="reset" class="mt-4 px-16 py-2 bg-blue-950 hover:bg-blue-900 rounded-md">Start
+                        Over</button>
+                    <button type="submit"
+                        class="mt-4 px-16 py-2 bg-blue-600 hover:bg-blue-700 rounded-md">Provision</button>
                 </div>
             </section>
         </form>

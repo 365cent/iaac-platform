@@ -94,6 +94,10 @@ document.addEventListener('DOMContentLoaded', function () {
                     window.open('https://cloud.digitalocean.com/kubernetes/clusters', '_blank');
                     window.focus();
                     break;
+                case 'ibm':
+                    window.open('https://cloud.ibm.com/kubernetes/clusters', '_blank');
+                    window.focus();
+                    break;
             }
             conf.setAttribute('aria-checked', 'true');
             // send the data to the server

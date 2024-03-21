@@ -1,50 +1,51 @@
 variable "token" {
-<<<<<<< HEAD
-  description = "Your Digitalocean API Personal Access Token. (required)"
-=======
-  description = "Your Linode API Personal Access Token. (required)"
->>>>>>> refs/remotes/origin/main
+  description = "IBM Cloud API Key. (required)"
 }
 
 variable "k8s_version" {
   description = "The Kubernetes version to use for this cluster. (required)"
-<<<<<<< HEAD
-  default = "1.29.1-do.0"
-=======
-  default = "1.28"
->>>>>>> refs/remotes/origin/main
+  default     = "1.29.2"
 }
 
-variable "label" {
-  description = "The unique label to assign to this cluster. (required)"
-  default = "default-lke-cluster"
+variable "resource_group" {
+  description = "Resource group name where the cluster will be created. (required)"
+  default     = "Default"
 }
 
-variable "region" {
-  description = "The region where your cluster will be located. (required)"
-<<<<<<< HEAD
-  default = "nyc1"
-=======
-  default = "us-east"
->>>>>>> refs/remotes/origin/main
+variable "name" {
+  description = "The unique name to assign to this Kubernetes cluster. (required)"
+  default     = "ikc"
 }
 
-variable "tags" {
-  description = "Tags to apply to your cluster for organizational purposes. (optional)"
-  type = list(string)
-  default = ["testing"]
+//variable "vpc_name" {
+//  description = "The name of the VPC where the cluster will be located. (required)"
+//}
+
+//variable "subnet_zone" {
+//  description = "The zone where the subnet will be created. (required)"
+//}
+
+variable "subnet_cidr" {
+  description = "The CIDR block for the subnet. (required)"
+  default     = "10.240.0.0/24"
 }
 
-variable "pools" {
-  description = "The Node Pool specifications for the Kubernetes cluster. (required)"
-  type = list(object({
-    type = string
-    count = number
-  }))
-  default = [
-    {
-      type = "g6-standard-1"
-      count = 3
-    }
-  ]
+variable "machine_type" {
+  description = "The machine type for the Kubernetes workers. (required)"
+  default     = "cx2.2x4"
+}
+
+variable "worker_count" {
+  description = "The number of worker nodes for the cluster. (required)"
+  default     = 2
+}
+
+variable "worker_zones" {
+  description = "The zones where the worker nodes will be created. (required)"
+  default     = ["us-south-1"]
+}
+
+variable "default_worker_pool_size" {
+  description = "The default size of the worker pool. (required)"
+  default     = 2
 }

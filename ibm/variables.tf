@@ -1,4 +1,4 @@
-variable "ibmcloud_api_key" {
+variable "token" {
   description = "IBM Cloud API Key. (required)"
 }
 
