@@ -8,8 +8,8 @@ terraform {
 }
 
 provider "ibm" {
-  ibmcloud_api_key = var.token
-  region           = var.region
+  ibmcloud_api_key = var.ibmcloud_api_key
+  region           = "us-south"
 }
 
 resource "ibm_container_vpc_cluster" "cluster" {
@@ -20,6 +20,7 @@ resource "ibm_container_vpc_cluster" "cluster" {
     subnet_id = ibm_is_subnet.subnet1.id # Example, needs proper subnet resource or variable
     name      = var.worker_zones[0]
   }
+  vpc_id            = ibm_is_vpc.vpc.id
   flavor            = var.machine_type
   worker_count      = var.default_worker_pool_size
 }
@@ -34,7 +35,7 @@ resource "ibm_is_subnet" "subnet1" {
   vpc                      = ibm_is_vpc.vpc.id
   zone                     = var.worker_zones[0]
   ipv4_cidr_block          = "10.243.0.0/24"
-  public_gateway_id        = ibm_is_public_gateway.pg.id
+  //public_gateway_id        = ibm_is_public_gateway.pg.id
 }
 
 # VPC and Public Gateway resources are placeholders, define them according to your network setup
