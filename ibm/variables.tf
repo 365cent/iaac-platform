@@ -4,7 +4,7 @@ variable "ibmcloud_api_key" {
 
 variable "k8s_version" {
   description = "The Kubernetes version to use for this cluster. (required)"
-  default     = "4.7_openshift"
+  default     = "1.29.2"
 }
 
 variable "resource_group" {

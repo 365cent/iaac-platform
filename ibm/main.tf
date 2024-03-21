@@ -34,7 +34,7 @@ resource "ibm_is_subnet" "subnet1" {
   name                     = "my-subnet"
   vpc                      = ibm_is_vpc.vpc.id
   zone                     = var.worker_zones[0]
-  ipv4_cidr_block          = "10.243.0.0/24"
+  ipv4_cidr_block          = "10.240.0.0/24"
   //public_gateway_id        = ibm_is_public_gateway.pg.id
 }
 
